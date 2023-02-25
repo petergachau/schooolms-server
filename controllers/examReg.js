@@ -1,7 +1,7 @@
-import TourModal from "../models/tour.js";
+import TourModal from "../models/ExamsReg.js";
 import mongoose from "mongoose";
 
-export const createTour = async (req, res) => {
+export const createMessage = async (req, res) => {
   const tour = req.body;
   const newTour = new TourModal({
     ...tour,
@@ -17,20 +17,20 @@ export const createTour = async (req, res) => {
   }
 };
 
-export const getTours = async (req, res) => {
-  const { page } = req.query;
+export const getMessages = async (req, res) => {
+  
   try {
+    // const tours = await TourModal.find();
+    // res.status(200).json(tours);
+
     const tours = await TourModal.find();
     res.status(200).json(tours);
-
-    
-    
   } catch (error) {
     res.status(404).json({ message: "Something went wrong" });
   }
 };
 
-export const getTour = async (req, res) => {
+export const getNotice = async (req, res) => {
   const { id } = req.params;
   try {
     const tour = await TourModal.findById(id);
@@ -40,7 +40,7 @@ export const getTour = async (req, res) => {
   }
 };
 
-export const getToursByUser = async (req, res) => {
+export const getNoticeByUser = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "User doesn't exist" });
@@ -49,7 +49,7 @@ export const getToursByUser = async (req, res) => {
   res.status(200).json(userTours);
 };
 
-export const deleteTour = async (req, res) => {
+export const deleteMessage = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {

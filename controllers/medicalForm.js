@@ -1,7 +1,7 @@
-import TourModal from "../models/Expenses.js";
+import TourModal from "../models/medicalForm.js";
 import mongoose from "mongoose";
 
-export const createNotice = async (req, res) => {
+export const createAdmission = async (req, res) => {
   const tour = req.body;
   const newTour = new TourModal({
     ...tour,
@@ -17,7 +17,7 @@ export const createNotice = async (req, res) => {
   }
 };
 
-export const getNotices = async (req, res) => {
+export const getAdmission = async (req, res) => {
   
   try {
     // const tours = await TourModal.find();
@@ -40,7 +40,7 @@ export const getNotice = async (req, res) => {
   }
 };
 
-export const getNoticeByUser = async (req, res) => {
+export const getAdmissionUser = async (req, res) => {
   const { id } = req.params;
   if (!mongoose.Types.ObjectId.isValid(id)) {
     return res.status(404).json({ message: "User doesn't exist" });
@@ -49,7 +49,7 @@ export const getNoticeByUser = async (req, res) => {
   res.status(200).json(userTours);
 };
 
-export const deleteNotice = async (req, res) => {
+export const deleteAdmission = async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {

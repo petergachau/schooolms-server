@@ -3,19 +3,23 @@ import express  from "express";
 import TourModal from '../models/tour.js'
 import {auth,isUser,isAdmin} from '../middleware/admin.js'
 import moment from 'moment'
-import ExpensesModal from "../models/Expenses.js";
+import ExpensesModal from "../models/finaceClinic.js";
+import AdmissionModal from '../models/admission.js'
+import StuffModal from "../models/caretakerComment.js";
 
-import MileModal from "../models/milestone.js";
+import MileModal from "../models/summary.js";
 import ComplainModal from "../models/complains.js";
 import VacationModal from "../models/vacation.js";
 const router = express.Router();
 
 
-router.get ('/totalexpenses',  async (req,res)=>{
+
+
+router.get ('/totalclinic',  async (req,res)=>{
     const previosMonth=moment()
-    .month(moment().month()-1)
+    // .month(moment().month()-1)
     .month(moment().month()-2)
-    .set('date',1)
+    // .set('date',1)
     .format('YYYY-MM-DD HH:mm:ss');
     // res.status(200).send(previosMonth)
     try {
@@ -24,14 +28,15 @@ router.get ('/totalexpenses',  async (req,res)=>{
             {
                 $project:{
                     month:{$month:'$createdAt'},
-                    total:"$security",
-                    totol2:"$electricityCharges",
-                    total3:"$waterCharges",
-                    total4:"$careTakerSalary",
-                    total5:"$maintananceSalary",
-                    total6:"$wifi",
-                    total7:"$clean",
-                    total8:"$services",
+                    total:"$budgetMed",
+                    totol2:"$amount",
+                    // 
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
                 }
             },
             
@@ -41,12 +46,12 @@ router.get ('/totalexpenses',  async (req,res)=>{
                     _id:'$month',
                     total:{$sum:"$total"},
                     total2:{$sum:"$totol2"},
-                    total3:{$sum:"$total3"},
-                    total4:{$sum:"$total4"},
-                    total5:{$sum:"$total5"},
-                    total6:{$sum:"$total6"},
-                    total7:{$sum:"$total7"},
-                    total8:{$sum:"$total8"},
+                    total3:{$sum:"$total1,$total2"},
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
                 }
             }
             
@@ -60,6 +65,265 @@ router.get ('/totalexpenses',  async (req,res)=>{
     }
 
  })
+
+ router.get ('/totalbooks',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await MileModal.aggregate([
+            { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {
+                $project:{
+                    month:{$month:'$createdAt'},
+                    total:"$amount",
+                   
+                    // 
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
+                }
+            },
+            
+            
+            {
+                $group:{
+                    _id:'$month',
+                    total:{$sum:"$total"},
+                    
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
+                }
+            }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })
+ router.get ('/totallibrary',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await ComplainModal.aggregate([
+            { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {
+                $project:{
+                    month:{$month:'$createdAt'},
+                    total:"$termlyBgt",
+                    totol2:"$maintance",
+                    // 
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
+                }
+            },
+            
+            
+            {
+                $group:{
+                    _id:'$month',
+                    total:{$sum:"$total"},
+                    total2:{$sum:"$totol2"},
+                    total3:{$sum:"$total1,$total2"},
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
+                }
+            }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })
+
+ router.get ('/totalboarding',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await VacationModal.aggregate([
+            { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {
+                $project:{
+                    month:{$month:'$createdAt'},
+                    total:"$termlyBgt",
+                    totol2:"$maintance",
+                    // 
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
+                }
+            },
+            
+            
+            {
+                $group:{
+                    _id:'$month',
+                    total:{$sum:"$total"},
+                    total2:{$sum:"$totol2"},
+                    total3:{$sum:"$total1,$total2"},
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
+                }
+            }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })
+
+
+router.get ('/totalfees',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await TourModal.aggregate([
+            // { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {$match:{}},
+             {
+                $project:{
+                    month:{$month:'$createdAt'},
+            // data:{$match:{}}
+            //         // totol2:"$electricityCharges",
+            //         // total3:"$waterCharges",
+            //         // total4:"$careTakerSalary",
+            //         // total5:"$maintananceSalary",
+            //         // total6:"$wifi",
+            //         // total7:"$clean",
+            //         // total8:"$services",
+              }
+            },
+            
+            
+            {
+                 $group:{
+                   _id:'$month',
+                //    data:'$data'
+            //         total:{$sum:"$total"},
+            //         // total2:{$sum:"$totol2"},
+            //         // total3:{$sum:"$total3"},
+            //         // total4:{$sum:"$total4"},
+            //         // total5:{$sum:"$total5"},
+            //         // total6:{$sum:"$total6"},
+            //         // total7:{$sum:"$total7"},
+            //         // total8:{$sum:"$total8"},
+               }
+             }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })
+
+
+
+ router.get ('/totalexpenses',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await TourModal.aggregate([
+            { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {
+                $project:{
+                    month:{$month:'$createdAt'},
+                    total:"$fees",
+                    // totol2:"$electricityCharges",
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
+                }
+            },
+            
+            
+            {
+                $group:{
+                    _id:'$month',
+                    total:{$sum:"$total"},
+                    // total2:{$sum:"$totol2"},
+                    // total3:{$sum:"$total3"},
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
+                }
+            }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })
+
+
+
 
 router.get ('/allpayments',  async (req,res)=>{
     const previosMonth=moment()
@@ -643,7 +907,7 @@ router.get ('/projects/single/2bedroom',  async (req,res)=>{
 
 
 })
-router.get ('/projects/singleb',  async (req,res)=>{
+router.get ('/class5',  async (req,res)=>{
     const previosMonth=moment()
     .month(moment().month()-1)
     .set('date',1)
@@ -651,15 +915,7 @@ router.get ('/projects/singleb',  async (req,res)=>{
     // res.status(200).send(previosMonth)
     try {
         const users= await TourModal.aggregate([
-            { $match : { apartment:'b'  ,aptType:'1bedroom'}},
-            {
-               $group:{
-                _id:'$apartment',
-                total:{$sum:1},
-               
-                
-            } 
-            }
+            { $match : { cc:'5'  ,aptType:'1bedroom'}},
             
             // { $match : { isAdmin : true } },
             // { $match : { supervisor : true } },
@@ -1400,3 +1656,228 @@ router.delete('/:id', isAdmin, async (req,res)=>{
 
     }
 })
+
+
+// admissions
+
+
+
+router.get ('/class4',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'4'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class1',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'1'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class2',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'3'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class3',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'3'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class5',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'5'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class6',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'6'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class7',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'7'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+router.get ('/class8',  async (req,res)=>{
+    const previosMonth=moment()
+    .month(moment().month()-12)
+    .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await AdmissionModal.aggregate([
+            { $match : { class:'8'} },
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+
+})
+
+
+router.get ('/staff',  async (req,res)=>{
+    const previosMonth=moment()
+    // .month(moment().month()-1)
+    .month(moment().month()-2)
+    // .set('date',1)
+    .format('YYYY-MM-DD HH:mm:ss');
+    // res.status(200).send(previosMonth)
+    try {
+        const users= await StuffModal.aggregate([
+            { $match : {createdAt:{$gte:new Date(previosMonth)} } },
+            {
+                $project:{
+                    month:{$month:'$createdAt'},
+                    total:"$amount",
+                   
+                    // 
+                    // total3:"$waterCharges",
+                    // total4:"$careTakerSalary",
+                    // total5:"$maintananceSalary",
+                    // total6:"$wifi",
+                    // total7:"$clean",
+                    // total8:"$services",
+                }
+            },
+            
+            
+            {
+                $group:{
+                    _id:'$month',
+                    total:{$sum:"$total"},
+                    
+                    // total4:{$sum:"$total4"},
+                    // total5:{$sum:"$total5"},
+                    // total6:{$sum:"$total6"},
+                    // total7:{$sum:"$total7"},
+                    // total8:{$sum:"$total8"},
+                }
+            }
+            
+            // { $match : { isAdmin : true } },
+            // { $match : { supervisor : true } },
+        ]);
+        res.status(200).send(users);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error)
+    }
+
+ })

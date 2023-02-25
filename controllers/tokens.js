@@ -1,7 +1,7 @@
-import TourModal from "../models/tenatNotice.js";
+import TourModal from "../models/tokens.js";
 import mongoose from "mongoose";
 
-export const createNotice = async (req, res) => {
+export const createTokens = async (req, res) => {
   const tour = req.body;
   const newTour = new TourModal({
     ...tour,
@@ -17,7 +17,7 @@ export const createNotice = async (req, res) => {
   }
 };
 
-export const getNotices = async (req, res) => {
+export const getTokens = async (req, res) => {
   
   try {
     // const tours = await TourModal.find();
@@ -49,7 +49,7 @@ export const getNoticeByUser = async (req, res) => {
   res.status(200).json(userTours);
 };
 
-export const deleteNotice = async (req, res) => {
+export const deleteTokens= async (req, res) => {
   const { id } = req.params;
   try {
     if (!mongoose.Types.ObjectId.isValid(id)) {

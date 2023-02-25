@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import UserModel from "../models/user.js";
 
-const secret = "test";
+const secret = 'heloopeopl';
 
 const auth = async (req, res, next) => {
   try {

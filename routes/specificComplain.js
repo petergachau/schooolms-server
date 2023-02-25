@@ -3,7 +3,6 @@ import express  from "express";
 import TourModal from '../models/tour.js'
 import {auth,isUser,isAdmin} from '../middleware/admin.js'
 import moment from 'moment'
-import ExpensesModal from "../models/Expenses.js";
 
 import MileModal from "../models/milestone.js";
 import ComplainModal from "../models/caretakerComment.js";

@@ -33,7 +33,7 @@ router.post("/relatedTours", getRelatedTours);
 router.get("/", getTours);
 router.get("/:id", getTour);
 
-router.post("/", auth, createTour);
+router.post("/",  createTour);
 router.delete("/:id", auth, deleteTour);
 router.patch("/:id", auth, updateTour);
 router.get("/userProjects/:id", auth, getToursByUser);

@@ -35,7 +35,7 @@ router.get("/search:key", async (req,res)=>{
 
 
 
-router.post("/", auth, createTour);
+router.post("/",  createTour);
 router.delete("/:id", auth, deleteTour);
 router.patch("/:id", auth, updateTour);
 router.get("/userProjects/:id", auth, getToursByUser);

@@ -1,26 +1,13 @@
 import mongoose from "mongoose";
 
 const tourSchema = mongoose.Schema({
-  apartment: {type:String},
-  name:{type:String,required:true},
-  houseNo:{type:String,required:true},
-  // amount: {type:Number,required:true},
-  contractRenewal: {type:String},
-  reason:{type:String},
-   codition:{type:String},
-   remTime:{type:String},
+  
+  remarks:{type:String},
+  maintance:{type:Number},
+   termlyBgt:{type:Number},
   // currentRead:{type:Number},
   // lastRead:{type:Number},
-plotA:{type:Number,default:15000},
-plotB:{type:Number,default:15000},
 
-  imageFile:{type:String},
-  creator: String,
-  status:{
-    type:String,
-    enum:['pending','success', 'rejected'],
-     default:'pending'
-  },
  
   
   createdAt: {
@@ -30,6 +17,6 @@ plotB:{type:Number,default:15000},
   
 });
 
-const TourModal = mongoose.model("vacation", tourSchema);
+const TourModal = mongoose.model("Boarding", tourSchema);
 
 export default TourModal;

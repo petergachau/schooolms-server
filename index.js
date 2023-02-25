@@ -15,18 +15,24 @@ import match from './routes/match.js'
 import twilio  from 'twilio'
 import complainMatch from './routes/matchVacation.js'
 import tenantRouter from './routes/tenant.js'
-import noticeRouter from './routes/tenantNotice.js'
+import noticeRouter from './routes/booksIn.js'
 import complainRouter from './routes/caretakerComment.js'
 import vacationRouter from './routes/caretakerVacation.js'
-import expenses from './routes/expenses.js'
-import specific  from './routes/specificVacations.js'
+import expenses from './routes/financeClinic.js'
+import tokenRouter  from './routes/tokens.js'
 import specificRouter  from './routes/specificComplain.js'
 import servicesRouter  from './routes/services.js'
 import userCrudRouter  from './routes/userCrud.js'
 import summaryRouter  from './routes/summary.js'
 import singleSummaryRouter  from './routes/summarySingles.js'
 import mpesaRouter from './routes/mpesa.js'
-import messageRouter from './routes/message.js'
+import messageRouter from './routes/examReg.js'
+import boardingRouter from './routes/bording.js'
+import admissionRouter from './routes/admission.js'
+import medicalRouter from './routes/medicalForm.js'
+import suppliesRouter from './routes/storeSupplies.js'
+import issuesRouter from './routes/storeIssues.js'
+import borrowRouter from './routes/borrowbook.js'
 //twilio requirements -- Texting API .js
 // const accountSid = '___YOUR___ACCOUNT__SID';
 // const authToken = '___YOUR___AUTHENTICATION__TOKEN'; 
@@ -43,28 +49,34 @@ app.use(cors());
 app.use("/users", userRouter); // http://localhost:5000/users/signup
 app.use("/project", tourRouter);
 app.use('/milestone', milestone)
-app.use('/vacation', vacation)
+app.use('/boadingfinanace', vacation)
 app.use('/complain', complain)
 app.use('/stats', users)
 app.use('/stats', analysis)
 app.use('/stats', mile)
 app.use('/stats', match)
-app.use('/expenses', expenses)
+app.use('/financeclinic', expenses)
 app.use('/stats', complainMatch)
 app.use('/tenant', tenantRouter)
-app.use('/notice', noticeRouter)
+app.use('/booksin', noticeRouter)
 app.use('/caretakervacation', vacationRouter)
-app.use('/caretakercomplain', complainRouter)
-app.use('/start/vacation', specific)
+app.use('/staff', complainRouter)
+app.use('/tokens', tokenRouter)
 app.use('/start/complain', specificRouter)
 app.use('/start/services', servicesRouter)
 app.use('/usercrud', userCrudRouter)
 app.use('/summary', summaryRouter)
 app.use('/stk', mpesaRouter)
 app.use('/status', singleSummaryRouter)
-app.use('/message', messageRouter)
+app.use('/examreg', messageRouter)
+app.use('/admission', admissionRouter)
+app.use('/boarding', boardingRouter)
+app.use('/medical', medicalRouter)
+app.use('/issues', suppliesRouter)
+app.use('/supplies', issuesRouter)
+app.use('/borrowbook', borrowRouter)
 
-app.get('/', (req, res) => res.send('Hello World Tenant!'));
+app.get('/', (req, res) => res.send('Hello World SMS!'));
 
 
 

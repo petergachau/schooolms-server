@@ -1,9 +1,9 @@
 import express from "express";
-import { createNotice, deleteNotice, getNotice, getNoticeByUser, getNotices} from "../controllers/tenantNotice.js";
+import { createBooksIn,  deleteBooksIn,  getBooksIn, getBooksInUser, getNotice} from "../controllers/booksIn.js";
 import auth from "../middleware/auth.js";
 
 
-import noticeModal from "../models/tenatNotice.js";
+import noticeModal from "../models/booksIn.js";
 const router = express.Router();
 
 
@@ -20,13 +20,13 @@ router.get("/search:key", async (req,res)=>{
 });
 
 
-router.get("/", getNotices);
+router.get("/", getBooksIn);
 router.get("/:id", getNotice);
 
-router.post("/", auth, createNotice);
-router.delete("/:id", auth, deleteNotice);
+router.post("/",  createBooksIn);
+router.delete("/:id", auth, deleteBooksIn);
 
-router.get("/user/:id", auth, getNoticeByUser);
+router.get("/user/:id", auth, getBooksInUser);
 
 
 export default router;

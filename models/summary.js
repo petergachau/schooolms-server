@@ -3,13 +3,10 @@ import mongoose from "mongoose";
 const summarySchema = mongoose.Schema({
   
   name:{type:String},
-  houseNo:{type:String},
-  rent: {type:Number},
-  wifi: {type:Number},
-  penalties: {type:Number},
-  water: {type:Number},
-  arrears: {type:Number},
-  remarks: {type:String},
+  empNo:{type:String},
+  amount: {type:Number},
+  
+  department: {type:String},
   
 },
 {timestamps:true});

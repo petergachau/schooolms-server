@@ -3,7 +3,7 @@ import express  from "express";
 import TourModal from '../models/tour.js'
 import {auth,isUser,isAdmin} from '../middleware/admin.js'
 import moment from 'moment'
-import ExpensesModal from "../models/tenatNotice.js";
+import ExpensesModal from "../models/booksIn.js";
 
 import MileModal from "../models/milestone.js";
 const router = express.Router();

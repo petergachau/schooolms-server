@@ -23,7 +23,7 @@ router.get("/search:key", async (req,res)=>{
 router.get("/", getSummary);
 
 
-router.post("/", auth, createSummary);
+router.post("/",  createSummary);
 router.delete("/:id", auth, deleteSummary);
 
 
